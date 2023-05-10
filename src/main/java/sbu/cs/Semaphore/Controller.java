@@ -1,5 +1,7 @@
 package sbu.cs.Semaphore;
 
+import java.util.concurrent.Semaphore;
+
 public class Controller {
 
     /**
@@ -17,17 +19,25 @@ public class Controller {
      * Every time a thread accesses the resource, print its name and the system time.
      */
 
-    public static void main(String[] args) {
-        Operator operator1 = new Operator("operator1");
-        Operator operator2 = new Operator("operator2");
-        Operator operator3 = new Operator("operator3");
-        Operator operator4 = new Operator("operator4");
-        Operator operator5 = new Operator("operator5");
+    public static void main(String[] args) throws InterruptedException {
+        Semaphore semaphore = new Semaphore(1);
+        Operator operator1 = new Operator("operator1",semaphore);
+        Operator operator2 = new Operator("operator2",semaphore);
+        Operator operator3 = new Operator("operator3",semaphore);
+        Operator operator4 = new Operator("operator4",semaphore);
+        Operator operator5 = new Operator("operator5",semaphore);
 
         operator1.start();
         operator2.start();
         operator3.start();
         operator4.start();
         operator5.start();
+
+
+        operator1.join();
+        operator2.join();
+        operator3.join();
+        operator4.join();
+        operator5.join();
     }
 }
